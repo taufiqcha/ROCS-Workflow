@@ -1,0 +1,31 @@
+Balanced accuracy, grouped cross-validation: 0.650
+
+|--- ez_over_lb <= 1.05
+|   |--- ez_over_lb <= 1.01
+|   |   |--- parallelism <= 1.46
+|   |   |   |--- class: 0
+|   |   |--- parallelism >  1.46
+|   |   |   |--- class: 0
+|   |--- ez_over_lb >  1.01
+|   |   |--- relative_width <= 0.49
+|   |   |   |--- class: 1
+|   |   |--- relative_width >  0.49
+|   |   |   |--- class: 0
+|--- ez_over_lb >  1.05
+|   |--- edges_per_task <= 2.96
+|   |   |--- top10_transfer_share <= 0.18
+|   |   |   |--- class: 0
+|   |   |--- top10_transfer_share >  0.18
+|   |   |   |--- class: 1
+|   |--- edges_per_task >  2.96
+|   |   |--- ez_over_lb <= 3.30
+|   |   |   |--- class: 0
+|   |   |--- ez_over_lb >  3.30
+|   |   |   |--- class: 1
+
+Feature importance
+  ez_over_lb: 0.464
+  edges_per_task: 0.272
+  top10_transfer_share: 0.214
+  relative_width: 0.049
+  parallelism: 0.000
