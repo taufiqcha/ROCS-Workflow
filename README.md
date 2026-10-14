@@ -13,7 +13,7 @@ rule of Section 3.5.
 
 The scripts `run_workflows.py`, `run_e4.py`, `run_e5.py`, and `run_e7.py` run the experiments of
 Table 2. `analysis.py` recomputes every value of Section 5 from `results/` and writes
-`results/summary.md`. `figures.py` draws Figures 2 to 6, and `validate.py` runs the checks of
+`results/summary.md`. `figures.py` draws Figures 2 to 6 and 8, and `validate.py` runs the checks of
 Section 4.2. `results/` holds the raw makespans and run times of every run.
 
 ## Data
