@@ -1,4 +1,4 @@
-"""E5: independent tasks on 54 VMs, three datasets, five sizes, and 30 seeds (Table 3).
+"""E5: independent tasks on 54 VMs, three datasets, five sizes, and 30 seeds (Table 5).
 
 CSA, CSA-OBL, and CSA-ROJ start from the same random assignment, CSA-OBL from its opposite by
 Eq. (5). GA and ROCS start from LPT. GA receives 20n evaluations.

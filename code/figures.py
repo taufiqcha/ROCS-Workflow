@@ -17,7 +17,7 @@ from scipy.stats import studentized_range
 ROOT = Path(__file__).resolve().parents[1]
 R, F = ROOT / "results", ROOT / "figures"
 F.mkdir(exist_ok=True)
-BLUE, ORANGE, GREY = "#1F4E79", "#C55A11", "#8C8C8C"
+BLUE, ORANGE, GREY, DARK = "#1F4E79", "#C55A11", "#8C8C8C", "#4D4D4D"
 ONE_COLUMN, TWO_COLUMNS = 3.5, 7.2
 plt.rcParams.update({"font.family": "sans-serif", "font.size": 8, "axes.titlesize": 8, "axes.labelsize": 8,
                      "xtick.labelsize": 7.5, "ytick.labelsize": 7.5, "legend.fontsize": 7.5,
@@ -35,9 +35,9 @@ def label(m):
 
 def independent():
     d = pd.read_csv(R / "e5.csv")
-    style = {"MIN_MIN": (GREY, "s", "--"), "LPT": (BLUE, "o", "-"), "CSA": (ORANGE, "^", ":"),
-             "CSA_OBL": (ORANGE, "v", "--"), "CSA_ROJ": (ORANGE, "D", "-")}
-    fig, axes = plt.subplots(1, 3, figsize=(TWO_COLUMNS, 2.3))
+    style = {"MIN_MIN": (BLUE, "s", "--"), "LPT": (BLUE, "o", "-"), "CSA": (GREY, "^", ":"),
+             "CSA_OBL": (GREY, "v", "--"), "CSA_ROJ": (ORANGE, "D", "-")}
+    fig, axes = plt.subplots(1, 3, figsize=(0.95 * TWO_COLUMNS, 2.0))
     for ax, dataset, title in zip(axes, ["simple", "stratified", "rnaseq"], ["(a) Simple", "(b) Stratified", "(c) Rnaseq"]):
         g = d[d.dataset == dataset]
         for m, (color, marker, line) in style.items():
@@ -46,8 +46,9 @@ def independent():
         ax.set_title(title)
         ax.set_xlabel("Tasks (thousands)")
     axes[0].set_ylabel("Makespan / lower bound")
-    axes[2].legend(frameon=False)
     fig.tight_layout()
+    fig.legend(*axes[0].get_legend_handles_labels(), frameon=False, ncol=5, loc="upper center",
+               bbox_to_anchor=(0.5, 0.02), handlelength=2.2)
     fig.savefig(F / "Figure_2.pdf")
     plt.close(fig)
 
@@ -66,7 +67,7 @@ def friedman(e1):
     ax.set_xlabel("Average rank")
     limit = ranks.values[0] + cd
     ax.axvline(limit, color="k", lw=0.7, ls="--")
-    ax.text(limit + 1.3, 1, f"best rank + critical\ndifference ({cd:.2f})", va="center", fontsize=7)
+    ax.text(limit + 1.3, 1, f"best rank + critical\ndifference ({cd:.2f})", va="center", fontsize=7.5)
     fig.savefig(F / "Figure_3.pdf")
     plt.close(fig)
 
@@ -75,7 +76,7 @@ def heatmap(e1):
     e1 = e1.copy()
     e1["ez"] = (e1[["HEFT", "PEFT"]].min(1) - e1.EZ) / e1[["HEFT", "PEFT"]].min(1) * 100
     e1["rocs"] = (e1[HEURISTICS].min(1) - e1.ROCS) / e1[HEURISTICS].min(1) * 100
-    fig, axes = plt.subplots(1, 2, figsize=(TWO_COLUMNS, 2.5))
+    fig, axes = plt.subplots(1, 2, figsize=(0.9 * TWO_COLUMNS, 2.3))
     for ax, column, title, color in [(axes[0], "ez", "(a) EZ over HEFT and PEFT", BLUE),
                                      (axes[1], "rocs", "(b) ROCS over best heuristic", ORANGE)]:
         T = e1.pivot_table(index="workflow", columns="ccr", values=column, aggfunc="mean")
@@ -86,7 +87,7 @@ def heatmap(e1):
         for i in range(T.shape[0]):
             for j in range(T.shape[1]):
                 v = T.values[i, j]
-                ax.text(j, i, f"{v:.1f}", ha="center", va="center", fontsize=7, color="white" if v > dark else "black")
+                ax.text(j, i, f"{v:.1f}", ha="center", va="center", fontsize=7.5, color="white" if v > dark else "black")
         ax.set_xticks(np.arange(-0.5, T.shape[1]), minor=True)
         ax.set_yticks(np.arange(-0.5, T.shape[0]), minor=True)
         ax.grid(which="minor", color="#BFBFBF", lw=0.3)
@@ -95,7 +96,7 @@ def heatmap(e1):
         for spine in ax.spines.values():
             spine.set_visible(True)
             spine.set_linewidth(0.5)
-        fig.colorbar(image, ax=ax, shrink=0.85, label="Mean improvement (%)")
+        fig.colorbar(image, ax=ax, shrink=0.85, label="Mean improvement (%)").outline.set_linewidth(0.5)
     fig.tight_layout()
     fig.savefig(F / "Figure_4.pdf")
     plt.close(fig)
@@ -105,7 +106,7 @@ def budget(e1, ax):
     subset = e1[(e1["size"] == 500) & (e1.seed < 10) & e1.workflow.isin(["Epigenomics", "Montage", "Genome", "Cycles"])
                 & e1.ccr.isin([1.0, 5.0])]
     data = {20: subset, 100: pd.read_csv(R / "e2_100n.csv"), 500: pd.read_csv(R / "e2_500n.csv")}
-    style = {"ROCS": (ORANGE, "o", "-"), "EZ_GA": (BLUE, "s", "-"), "EZ_PCSA": (BLUE, "^", "--"),
+    style = {"ROCS": (ORANGE, "o", "-"), "EZ_GA": (DARK, "s", "-"), "EZ_PCSA": (DARK, "^", "--"),
              "GA": (GREY, "s", ":"), "CSA_OBL": (GREY, "v", "--")}
     ax.axhline(0, color=GREY, lw=0.4, alpha=0.6, zorder=0)
     extreme = 0
@@ -123,7 +124,6 @@ def budget(e1, ax):
     ax.set_xlabel("Evaluation budget")
     ax.set_ylabel("Mean improvement (%)")
     ax.set_title("(b) Evaluation budget")
-    ax.legend(frameon=False, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.25), columnspacing=1.0, handlelength=2.2)
 
 
 def optimality_gap():
@@ -146,10 +146,10 @@ def optimality_gap():
 
 def run_time(e1, ax):
     """Total time of the heuristic stage plus refinement, which is the cost of a full schedule."""
-    style = {"ROCS": (ORANGE, "o", "-"), "EZ_GA": (BLUE, "s", "-"), "EZ_PCSA": (BLUE, "^", "--"),
+    style = {"ROCS": (ORANGE, "o", "-"), "EZ_GA": (DARK, "s", "-"), "EZ_PCSA": (DARK, "^", "--"),
              "GA": (GREY, "s", ":"), "PSO": (GREY, "D", "--")}
     sizes = e1.groupby("size").n_tasks.mean()
-    ax.plot(sizes.values, e1.groupby("size").seconds_EZ.mean().values, color="k", marker="x", ms=3.5, lw=1.1,
+    ax.plot(sizes.values, e1.groupby("size").seconds_EZ.mean().values, color=BLUE, marker="x", ms=3.5, lw=1.1,
             label="Heuristics")
     for m, (color, marker, line) in style.items():
         total = (e1.seconds_EZ + e1["seconds_" + m]).groupby(e1["size"]).mean()
@@ -161,16 +161,19 @@ def run_time(e1, ax):
     ax.minorticks_off()
     ax.set_xlabel("Tasks")
     ax.set_ylabel("Mean run time (s)")
+    ax.set_yticks([0.1, 1, 10], ["0.1", "1", "10"])
     ax.set_title("(a) Run time")
-    ax.legend(frameon=False, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.25), columnspacing=1.0, handlelength=2.2)
 
 
 def cost(e1):
     """Run time of complete schedules and improvement at three evaluation budgets."""
-    fig, axes = plt.subplots(1, 2, figsize=(TWO_COLUMNS, 2.4))
+    fig, axes = plt.subplots(1, 2, figsize=(0.95 * TWO_COLUMNS, 1.8))
     run_time(e1, axes[0])
     budget(e1, axes[1])
     fig.tight_layout(w_pad=3)
+    handles = {l: h for ax in axes for h, l in zip(*ax.get_legend_handles_labels())}
+    fig.legend(handles.values(), handles.keys(), frameon=False, ncol=len(handles), loc="upper center",
+               bbox_to_anchor=(0.5, 0.02), columnspacing=1.2, handlelength=2.2)
     fig.savefig(F / "Figure_5.pdf")
     plt.close(fig)
 
@@ -187,10 +190,10 @@ def rule_evidence(e1):
                    alpha=0.7, label=name)
     for limit, ratio in ((1, "1.01"), (5, "1.05"), (230, "3.30")):
         ax.axvline(limit, color="k", lw=0.6, ls="--")
-        ax.text(limit, 1.02, ratio, transform=ax.get_xaxis_transform(), ha="center", va="bottom", fontsize=6.5)
+        ax.text(limit, 1.02, ratio, transform=ax.get_xaxis_transform(), ha="center", va="bottom", fontsize=7.5)
     ax.axhline(1, color=GREY, lw=0.4, alpha=0.6, zorder=0)
-    ax.text(-0.04, 1.02, "$C_{EZ}/LB$:", transform=ax.get_xaxis_transform(), ha="left", va="bottom", fontsize=6.5)
-    ax.text(650, 1.15, "1% target", ha="right", va="bottom", fontsize=6.5, color=GREY)
+    ax.text(-0.04, 1.02, "$C_{EZ}/LB$:", transform=ax.get_xaxis_transform(), ha="left", va="bottom", fontsize=9.5)
+    ax.text(0.03, 1.15, "1% target", ha="left", va="bottom", fontsize=7.5, color=GREY)
     ax.set_xscale("symlog", linthresh=1)
     ax.set_yscale("symlog", linthresh=1)
     ax.set_xticks([0, 1, 5, 20, 100, 230], ["0", "1", "5", "20", "100", "230"])
@@ -200,7 +203,8 @@ def rule_evidence(e1):
     ax.set_ylim(-0.05, 120)
     ax.set_xlabel("EZ makespan above the lower bound (%)")
     ax.set_ylabel("Improvement over EZ (%)")
-    ax.legend(frameon=False, ncol=2, loc="upper center", bbox_to_anchor=(0.5, -0.25), handletextpad=0.3, columnspacing=2.0)
+    ax.legend(frameon=False, ncol=2, loc="upper center", bbox_to_anchor=(0.5, -0.2), handletextpad=0.3, columnspacing=2.0,
+              markerscale=2)
     fig.savefig(F / "Figure_8.pdf")
     plt.close(fig)
 

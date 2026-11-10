@@ -1,8 +1,8 @@
-# Values reported in Section 5
+# Values reported in Section 6
 
-## 5.1 Independent tasks (E5)
+## 6.1 Independent tasks (E5)
 
-Median makespan relative to the lower bound (Table 3 and Fig. 2)
+Median makespan relative to the lower bound (Table 5 and Fig. 2)
 
 | Dataset | Tasks | MIN_MIN | LPT | CSA | CSA_OBL | CSA_ROJ | GA | ROCS_LPT |
 |---|---|---|---|---|---|---|---|---|
@@ -30,7 +30,7 @@ Median makespan relative to the lower bound (Table 3 and Fig. 2)
 - CSA-ROJ shorter than CSA: 412 of 450 runs
 - Median gap to the bound from 3,000 tasks: CSA-ROJ 0.1% to 9.5%, CSA 1.7% to 20.6%
 
-## 5.2 Workflow benchmark (E1)
+## 6.2 Workflow benchmark (E1)
 
 Friedman chi-square 20789, p 0, Nemenyi critical difference 0.306 (Fig. 3)
 
@@ -52,7 +52,7 @@ Friedman chi-square 20789, p 0, Nemenyi critical difference 0.306 (Fig. 3)
 - Mean ROCS improvement (Fig. 4b): CCR 0.1 0.14%, CCR 5 1.47%, largest workflow mean 3.90% (Epigenomics)
 - ROCS more than 1% better than the best heuristic at CCR 5: 14.0% of runs
 
-Pairwise comparison of ROCS (Table 4)
+Pairwise comparison of ROCS (Table 6)
 
 | Opponent | Wins | Ties | Losses | p Holm | Paired A12 |
 |---|---|---|---|---|---|
@@ -65,7 +65,7 @@ Pairwise comparison of ROCS (Table 4)
 - Mean run time, 1000 tasks: ROCS 2.30 s, EZ+GA 4.28 s
 - Mean makespan reduction of ROCS on Montage and Epigenomics at CCR 1 and 5: PEFT 42.5%, HEFT 41.7%, CSA_OBL 39.5%, GA 30.7%
 
-## 5.3 Sensitivity (E2 and E3)
+## 6.3 Sensitivity (E2 and E3)
 
 Mean improvement over the best heuristic by budget (Fig. 5)
 
@@ -83,7 +83,7 @@ Mean improvement over the best heuristic by budget (Fig. 5)
 | 16 VMs, 450/500/550 | 15.3 | 0.8 |
 | 16 VMs, 250/500/1000 | 20.3 | 1.1 |
 
-## 5.4 Optimality gap (E4) and dual encoding (E7)
+## 6.4 Optimality gap (E4) and dual encoding (E7)
 
 - CP-SAT proved optimality on 9 of 36 instances and returned the best known solution on 32
 - Median gap to the proven optimum: HEFT 5.9%, EZ 5.9%, ROCS 5.1%
@@ -91,7 +91,7 @@ Mean improvement over the best heuristic by budget (Fig. 5)
 - Median gap of DCSA to the best known solution (Fig. 6): 20 3.1%, 100 2.7%, 500 1.8%, 2000 1.4%
 - DCSA at 2000n shorter than EZ+PCSA on 30 instances and shorter than CP-SAT on 4
 
-Dual encoding at 100n, improvement over EZ (Table 5)
+Dual encoding at 100n, improvement over EZ (Table 7)
 
 | Method | Mean (%) | Median (%) | DCSA wins | DCSA losses | p |
 |---|---|---|---|---|---|
@@ -103,7 +103,7 @@ Dual encoding at 100n, improvement over EZ (Table 5)
 | ROCS | 2.98 | 0.46 | 92 | 40 | 5.81e-07 |
 | EZ_PCSA | 2.74 | 0.51 | 81 | 41 | 0.000148 |
 
-## 5.5 Selection rule (E6)
+## 6.5 Selection rule (E6)
 
 - Balanced accuracy with grouped cross-validation: 0.65
 - ROCS invoked on 42.4% of the instances, refinement time saved 64.5%

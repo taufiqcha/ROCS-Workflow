@@ -1,4 +1,4 @@
-"""Edge-zeroing clustering (EZ) of Sarkar (1989) for heterogeneous VMs (Section 2.4).
+"""Edge-zeroing clustering (EZ) of Sarkar (1989) for heterogeneous VMs (Section 3.4).
 
 Edges are visited in decreasing order of transfer time, and the clusters of both endpoints are merged
 whenever the makespan does not increase. All tasks of a cluster run on one VM, which is chosen by

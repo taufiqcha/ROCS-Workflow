@@ -1,11 +1,11 @@
-"""Rank-opposition jumping (Eq. 7) and the rank-opposition crow search ROCS (Algorithm 1)."""
+"""Rank-opposition jumping (Eq. 6) and the rank-opposition crow search ROCS (Algorithm 1)."""
 import numpy as np
 
 from model import evaluate
 
 
 def opposite_rank(busy, v):
-    """Eq. (7): the VM whose busy-time rank mirrors the rank of VM v."""
+    """Eq. (6): the VM whose busy-time rank mirrors the rank of VM v."""
     ranked = np.argsort(busy)
     return int(ranked[len(busy) - 1 - int(np.where(ranked == v)[0][0])])
 

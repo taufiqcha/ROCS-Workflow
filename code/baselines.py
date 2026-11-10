@@ -1,4 +1,4 @@
-"""Compared metaheuristics on the VM-index encoding (Table 1): CSA, CSA-OBL, PSO, GA, and PCSA.
+"""Compared metaheuristics on the VM-index encoding (Table 3): CSA, CSA-OBL, PSO, GA, and PCSA.
 
 All methods decode with the shared priority order and receive the same evaluation budget.
 Continuous positions in [0, M) are decoded by the floor function.

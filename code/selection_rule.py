@@ -1,4 +1,4 @@
-"""E6: selection rule of Section 3.5, a depth-three decision tree on instance features.
+"""E6: selection rule of Section 4.6, a depth-three decision tree on instance features.
 
 The target is whether the best clustering-seeded method (ROCS, EZ+GA, or EZ+PCSA) improves EZ by
 more than 1%. Five-fold cross-validation is grouped by workflow, so the tested application is never

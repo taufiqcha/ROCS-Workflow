@@ -1,4 +1,4 @@
-"""Recomputes every value reported in Section 5 from the archived results and writes summary.md.
+"""Recomputes every value reported in Section 6 from the archived results and writes summary.md.
 
 Improvement is the relative makespan reduction in percent with respect to the best heuristic on the
 same instance. Pairwise tests are paired Wilcoxon signed-rank tests, and the paired A12 is the share
@@ -49,9 +49,9 @@ def independent_tasks():
     ratio = d.copy()
     ratio[methods] = d[methods].div(d.lower_bound, axis=0)
     median = ratio.groupby(["dataset", "size"])[methods].median()
-    out("## 5.1 Independent tasks (E5)")
+    out("## 6.1 Independent tasks (E5)")
     out()
-    out("Median makespan relative to the lower bound (Table 3 and Fig. 2)")
+    out("Median makespan relative to the lower bound (Table 5 and Fig. 2)")
     out()
     out("| Dataset | Tasks | " + " | ".join(methods) + " |")
     out("|---|---|" + "---|" * len(methods))
@@ -79,7 +79,7 @@ def workflow_benchmark():
     k, n = len(E1_METHODS), len(d)
     stat = friedmanchisquare(*[d[m] for m in E1_METHODS])
     cd = studentized_range.ppf(0.95, k, np.inf) / np.sqrt(2) * np.sqrt(k * (k + 1) / (6 * n))
-    out("## 5.2 Workflow benchmark (E1)")
+    out("## 6.2 Workflow benchmark (E1)")
     out()
     out(f"Friedman chi-square {stat.statistic:.0f}, p {stat.pvalue:.2g}, Nemenyi critical difference {cd:.3f} (Fig. 3)")
     out()
@@ -100,7 +100,7 @@ def workflow_benchmark():
         f"largest workflow mean {by_workflow.max():.2f}% ({by_workflow.idxmax()})")
     out(f"- ROCS more than 1% better than the best heuristic at CCR 5: {100 * (d.rocs[d.ccr == 5.0] > 1).mean():.1f}% of runs")
     out()
-    out("Pairwise comparison of ROCS (Table 4)")
+    out("Pairwise comparison of ROCS (Table 6)")
     out()
     out("| Opponent | Wins | Ties | Losses | p Holm | Paired A12 |")
     out("|---|---|---|---|---|---|")
@@ -124,7 +124,7 @@ def sensitivity():
     subset = e1[(e1["size"] == 500) & (e1.seed < 10) & e1.ccr.isin([1.0, 5.0])]
     budgets = {"20n": subset[subset.workflow.isin(["Epigenomics", "Montage", "Genome", "Cycles"])],
                "100n": pd.read_csv(R / "e2_100n.csv"), "500n": pd.read_csv(R / "e2_500n.csv")}
-    out("## 5.3 Sensitivity (E2 and E3)")
+    out("## 6.3 Sensitivity (E2 and E3)")
     out()
     out("Mean improvement over the best heuristic by budget (Fig. 5)")
     out()
@@ -151,7 +151,7 @@ def optimality_and_dual():
     methods = ["HEFT", "EZ", "GA", "CSA_OBL", "EZ_GA", "EZ_PCSA", "ROCS", "DCSA_20", "DCSA_100", "DCSA_500", "DCSA_2000"]
     best = d[["cpsat_best"] + methods].min(1)
     proven = d[d.cpsat_status == "OPTIMAL"]
-    out("## 5.4 Optimality gap (E4) and dual encoding (E7)")
+    out("## 6.4 Optimality gap (E4) and dual encoding (E7)")
     out()
     out(f"- CP-SAT proved optimality on {len(proven)} of {len(d)} instances and returned the best known "
         f"solution on {int((d.cpsat_best <= best + 1e-9).sum())}")
@@ -165,7 +165,7 @@ def optimality_and_dual():
         f"and shorter than CP-SAT on {int((d.DCSA_2000 < d.cpsat_best - 1e-6).sum())}")
     out()
     e7 = pd.read_csv(R / "e7.csv")
-    out("Dual encoding at 100n, improvement over EZ (Table 5)")
+    out("Dual encoding at 100n, improvement over EZ (Table 7)")
     out()
     out("| Method | Mean (%) | Median (%) | DCSA wins | DCSA losses | p |")
     out("|---|---|---|---|---|---|")
@@ -185,7 +185,7 @@ def selection_rule():
     selected = d.cv_prediction == 1
     rocs = gain(d[HEURISTICS].min(1), d.ROCS)
     framework = np.where(selected, rocs, 0.0).mean()
-    out("## 5.5 Selection rule (E6)")
+    out("## 6.5 Selection rule (E6)")
     out()
     out(f"- Balanced accuracy with grouped cross-validation: {balanced_accuracy_score(d.target, d.cv_prediction):.2f}")
     out(f"- ROCS invoked on {100 * selected.mean():.1f}% of the instances, refinement time saved "
@@ -197,7 +197,7 @@ def selection_rule():
 
 
 if __name__ == "__main__":
-    out("# Values reported in Section 5")
+    out("# Values reported in Section 6")
     out()
     for section in (independent_tasks, workflow_benchmark, sensitivity, optimality_and_dual, selection_rule):
         section()

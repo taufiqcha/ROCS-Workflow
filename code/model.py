@@ -1,4 +1,4 @@
-"""Workflow model, list-scheduling decoder, HEFT, and PEFT (Section 2 of the article).
+"""Workflow model, list-scheduling decoder, HEFT, and PEFT (Section 3 of the article).
 
 Task i runs on VM k for runtime_i * 500 / s_k seconds. A transfer costs data / bandwidth when the
 parent and the child run on different VMs and nothing otherwise. The bandwidth is set so that the

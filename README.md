@@ -2,19 +2,19 @@
 
 Code for *A clustering-seeded rank-opposition crow search algorithm for cloud workflow scheduling*.
 
-`code/rocs.py` holds the proposed method, namely rank-opposition jumping of Eq. (7) and ROCS of
+`code/rocs.py` holds the proposed method, namely rank-opposition jumping of Eq. (6) and ROCS of
 Algorithm 1. `code/dcsa.py` holds the dual-encoded crow search DCSA of Algorithm 2, its key-based
-decoder, and the dual-encoded GA. `code/model.py` holds the workflow model of Section 2, the
+decoder, and the dual-encoded GA. `code/model.py` holds the workflow model of Section 3, the
 list-scheduling decoder of Eq. (3), HEFT, PEFT, and the choice of the shared priority order.
 `code/clustering.py` is the edge-zeroing heuristic, `code/baselines.py` holds CSA, CSA-OBL, PSO, GA,
 and PCSA, `code/independent.py` holds the independent-task model with LPT and Min-Min, and
-`code/exact.py` is the CP-SAT model of Eqs. (9) to (11). `code/selection_rule.py` builds the selection
-rule of Section 3.5.
+`code/exact.py` is the CP-SAT model of Eqs. (8) to (10). `code/selection_rule.py` builds the selection
+rule of Section 4.6.
 
 The scripts `run_workflows.py`, `run_e4.py`, `run_e5.py`, and `run_e7.py` run the experiments of
-Table 2. `analysis.py` recomputes every value of Section 5 from `results/` and writes
+Table 4. `analysis.py` recomputes every value of Section 6 from `results/` and writes
 `results/summary.md`. `figures.py` draws Figures 2 to 6 and 8, and `validate.py` runs the checks of
-Section 4.2. `results/` holds the raw makespans and run times of every run.
+Section 5.2. `results/` holds the raw makespans and run times of every run.
 
 ## Data
 

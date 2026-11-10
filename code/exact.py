@@ -1,4 +1,4 @@
-"""Constraint programming reference of Eqs. (9) to (11), solved with CP-SAT (OR-Tools 9.11).
+"""Constraint programming reference of Eqs. (8) to (10), solved with CP-SAT (OR-Tools 9.11).
 
 Times are rounded to 0.1 s. The solver receives the best heuristic assignment as a hint.
 """
