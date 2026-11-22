@@ -1,4 +1,4 @@
-"""Dual-encoded crow search DCSA (Algorithm 2) and the dual-encoded GA (GA-dual).
+"""Dual-encoded crow search DCSA and the dual-encoded GA (GA-dual).
 
 A solution is a VM assignment x and a continuous priority key per task. The decoder repeatedly
 schedules the ready task with the largest key on VM x[i] with insertion, so every decoded order
@@ -97,7 +97,7 @@ def dual_seeds(wf, problem, ez_seeds):
 
 def dcsa(decoder, seeds, rng, budget, chain, parents, N=50, AP=0.1, FL=1.0, p_local=0.2, p_key=0.2,
          seed_share=0.25, obl=True, sigma=0.05, flight=5):
-    """Algorithm 2. Returns the best makespan, assignment, and keys."""
+    """Dual-encoded crow search. Returns the best makespan, assignment, and keys."""
     n, m = decoder.exe.shape
     moves = LocalMoves(Problem(decoder.exe, None, decoder.ptr, decoder.parent, decoder.comm), chain, parents)
     scale = max(np.ptp(seeds[0][1]), 1e-9)

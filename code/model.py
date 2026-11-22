@@ -1,4 +1,4 @@
-"""Workflow model, list-scheduling decoder, HEFT, and PEFT (Section 3 of the article).
+"""Workflow model, list-scheduling decoder, HEFT, and PEFT.
 
 Task i runs on VM k for runtime_i * 500 / s_k seconds. A transfer costs data / bandwidth when the
 parent and the child run on different VMs and nothing otherwise. The bandwidth is set so that the
@@ -142,7 +142,7 @@ def insertion_slot(start, finish, count, est, duration):
 
 @njit(cache=True)
 def decode(exe, order, ptr, parent, comm, x, choose_vm, oct_table):
-    """List scheduler of Eq. (3). With choose_vm the VM minimizing finish time plus OCT is chosen and
+    """Insertion-based list scheduler. With choose_vm the VM minimizing finish time plus OCT is chosen and
     written to x; otherwise every task runs on VM x[i]. Returns the makespan and the busy time per VM."""
     n, m = exe.shape
     start = np.zeros((m, n))

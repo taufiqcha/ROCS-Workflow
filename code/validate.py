@@ -1,4 +1,4 @@
-"""Checks of Section 5.2: the HEFT example of Topcuoglu et al. (2002) and decoder consistency.
+"""Validation checks: the HEFT example of Topcuoglu et al. (2002) and decoder consistency.
 
 The example has 10 tasks on three processors, and HEFT must reach a makespan of 80. The consistency
 check decodes the HEFT, PEFT, and both EZ assignments of 270 E1 instances with 200 tasks under their

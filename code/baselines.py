@@ -1,4 +1,4 @@
-"""Compared metaheuristics on the VM-index encoding (Table 3): CSA, CSA-OBL, PSO, GA, and PCSA.
+"""Compared metaheuristics on the VM-index encoding: CSA, CSA-OBL, PSO, GA, and PCSA.
 
 All methods decode with the shared priority order and receive the same evaluation budget.
 Continuous positions in [0, M) are decoded by the floor function.
@@ -62,8 +62,8 @@ def floor_eval(problem, position):
 
 
 def csa(problem, seeds, rng, budget, N=20, AP=0.1, FL=2.0, obl=False):
-    """CSA of Askarzadeh (2016) with Eq. (4). With obl, every random crow is compared with its
-    opposite M - x of Eq. (5) at initialization (CSA-OBL)."""
+    """CSA of Askarzadeh (2016). With obl, every random crow is compared with its
+    opposite M - x at initialization (CSA-OBL)."""
     n, m = problem.exe.shape
     X = rng.uniform(0, m, (N, n))
     evaluations = 0
@@ -147,7 +147,7 @@ def ga(problem, population, rng, budget):
 def pcsa(problem, seeds, rng, budget, chain, parents, N=50, AP=0.1, FL=1.0, p_local=0.2, random_share=0.25,
          flight=5):
     """Population CSA on the VM index. Each crow moves from its own memory toward the memory of a
-    tournament-selected crow. A quarter of the non-seed crows are random with OBL by Eq. (5), and
+    tournament-selected crow. A quarter of the non-seed crows are random with OBL, and
     the others are perturbed seeds."""
     n, m = problem.exe.shape
     moves = LocalMoves(problem, chain, parents)

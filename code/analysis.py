@@ -1,4 +1,4 @@
-"""Recomputes every value reported in Section 6 from the archived results and writes summary.md.
+"""Recomputes every reported result value from the archived results and writes summary.md.
 
 Improvement is the relative makespan reduction in percent with respect to the best heuristic on the
 same instance. Pairwise tests are paired Wilcoxon signed-rank tests, and the paired A12 is the share
@@ -44,14 +44,18 @@ def win_tie_loss(a, b, tol=1e-9):
 
 
 def independent_tasks():
-    d = pd.read_csv(R / "e5.csv")
-    methods = ["MIN_MIN", "LPT", "CSA", "CSA_OBL", "CSA_ROJ", "GA", "ROCS_LPT"]
+    # The lower_bound column of e5.csv is not valid for heterogeneous speeds. The valid bound (linear
+    # relaxation of the assignment, revision/independent_bounds.py) replaces it.
+    d = pd.read_csv(R / "e5.csv").drop(columns="lower_bound").merge(
+        pd.read_csv(R / "revision" / "independent_bounds.csv")[["dataset", "size", "seed", "lb_lp", "lp_rounded"]],
+        on=["dataset", "size", "seed"]).rename(columns={"lb_lp": "lower_bound"})
+    methods = ["MIN_MIN", "LPT", "CSA", "CSA_OBL", "CSA_ROJ", "GA", "ROCS_LPT", "lp_rounded"]
     ratio = d.copy()
     ratio[methods] = d[methods].div(d.lower_bound, axis=0)
     median = ratio.groupby(["dataset", "size"])[methods].median()
-    out("## 6.1 Independent tasks (E5)")
+    out("## Independent tasks (E5)")
     out()
-    out("Median makespan relative to the lower bound (Table 5 and Fig. 2)")
+    out("Median makespan relative to the lower bound")
     out()
     out("| Dataset | Tasks | " + " | ".join(methods) + " |")
     out("|---|---|" + "---|" * len(methods))
@@ -79,9 +83,9 @@ def workflow_benchmark():
     k, n = len(E1_METHODS), len(d)
     stat = friedmanchisquare(*[d[m] for m in E1_METHODS])
     cd = studentized_range.ppf(0.95, k, np.inf) / np.sqrt(2) * np.sqrt(k * (k + 1) / (6 * n))
-    out("## 6.2 Workflow benchmark (E1)")
+    out("## Workflow benchmark (E1)")
     out()
-    out(f"Friedman chi-square {stat.statistic:.0f}, p {stat.pvalue:.2g}, Nemenyi critical difference {cd:.3f} (Fig. 3)")
+    out(f"Friedman chi-square {stat.statistic:.0f}, p {stat.pvalue:.2g}, Nemenyi critical difference {cd:.3f}")
     out()
     out("| Method | Average rank |")
     out("|---|---|")
@@ -92,15 +96,15 @@ def workflow_benchmark():
     d["rocs"] = gain(best, d.ROCS)
     heat_a = d.pivot_table(index="workflow", columns="ccr", values="ez_over_list")
     me = heat_a.loc[["Epigenomics", "Montage"]]
-    out(f"- EZ over HEFT and PEFT on Montage and Epigenomics (Fig. 4a): CCR 1 {me[1.0].min():.1f}% to "
+    out(f"- EZ over HEFT and PEFT on Montage and Epigenomics: CCR 1 {me[1.0].min():.1f}% to "
         f"{me[1.0].max():.1f}%, CCR 5 {me[5.0].min():.1f}% to {me[5.0].max():.1f}%")
     by_ccr = d.groupby("ccr").rocs.mean()
     by_workflow = d.groupby("workflow").rocs.mean()
-    out(f"- Mean ROCS improvement (Fig. 4b): CCR 0.1 {by_ccr[0.1]:.2f}%, CCR 5 {by_ccr[5.0]:.2f}%, "
+    out(f"- Mean ROCS improvement: CCR 0.1 {by_ccr[0.1]:.2f}%, CCR 5 {by_ccr[5.0]:.2f}%, "
         f"largest workflow mean {by_workflow.max():.2f}% ({by_workflow.idxmax()})")
     out(f"- ROCS more than 1% better than the best heuristic at CCR 5: {100 * (d.rocs[d.ccr == 5.0] > 1).mean():.1f}% of runs")
     out()
-    out("Pairwise comparison of ROCS (Table 6)")
+    out("Pairwise comparison of ROCS")
     out()
     out("| Opponent | Wins | Ties | Losses | p Holm | Paired A12 |")
     out("|---|---|---|---|---|---|")
@@ -124,9 +128,9 @@ def sensitivity():
     subset = e1[(e1["size"] == 500) & (e1.seed < 10) & e1.ccr.isin([1.0, 5.0])]
     budgets = {"20n": subset[subset.workflow.isin(["Epigenomics", "Montage", "Genome", "Cycles"])],
                "100n": pd.read_csv(R / "e2_100n.csv"), "500n": pd.read_csv(R / "e2_500n.csv")}
-    out("## 6.3 Sensitivity (E2 and E3)")
+    out("## Sensitivity (E2 and E3)")
     out()
-    out("Mean improvement over the best heuristic by budget (Fig. 5)")
+    out("Mean improvement over the best heuristic by budget")
     out()
     shown = ["ROCS", "EZ_GA", "EZ_PCSA", "GA", "CSA_OBL"]
     out("| Budget | " + " | ".join(shown) + " |")
@@ -147,11 +151,12 @@ def sensitivity():
 
 
 def optimality_and_dual():
-    d = pd.read_csv(R / "e4.csv")
+    # CP-SAT schedules replayed on the continuous time scale (revision/cpsat_continuous.py)
+    d = pd.read_csv(R / "revision" / "cpsat_continuous_merged.csv").assign(cpsat_best=lambda x: x.cpsat_continuous)
     methods = ["HEFT", "EZ", "GA", "CSA_OBL", "EZ_GA", "EZ_PCSA", "ROCS", "DCSA_20", "DCSA_100", "DCSA_500", "DCSA_2000"]
     best = d[["cpsat_best"] + methods].min(1)
     proven = d[d.cpsat_status == "OPTIMAL"]
-    out("## 6.4 Optimality gap (E4) and dual encoding (E7)")
+    out("## Optimality gap (E4) and dual encoding (E7)")
     out()
     out(f"- CP-SAT proved optimality on {len(proven)} of {len(d)} instances and returned the best known "
         f"solution on {int((d.cpsat_best <= best + 1e-9).sum())}")
@@ -159,13 +164,13 @@ def optimality_and_dual():
     out("- Median gap to the proven optimum: " + ", ".join(f"{m} {to_opt(m).median():.1f}%" for m in ["HEFT", "EZ", "ROCS"]))
     out("- Largest gap to the proven optimum: " + ", ".join(
         f"{m} {to_opt(m).max():.1f}%" for m in ["EZ", "GA", "CSA_OBL", "EZ_GA", "EZ_PCSA", "ROCS"]))
-    out("- Median gap of DCSA to the best known solution (Fig. 6): " + ", ".join(
+    out("- Median gap of DCSA to the best known solution: " + ", ".join(
         f"{b} {(-gain(best, d[f'DCSA_{b}'])).median():.1f}%" for b in [20, 100, 500, 2000]))
     out(f"- DCSA at 2000n shorter than EZ+PCSA on {int((d.DCSA_2000 < d.EZ_PCSA - 1e-6).sum())} instances "
         f"and shorter than CP-SAT on {int((d.DCSA_2000 < d.cpsat_best - 1e-6).sum())}")
     out()
     e7 = pd.read_csv(R / "e7.csv")
-    out("Dual encoding at 100n, improvement over EZ (Table 7)")
+    out("Dual encoding at 100n, improvement over EZ")
     out()
     out("| Method | Mean (%) | Median (%) | DCSA wins | DCSA losses | p |")
     out("|---|---|---|---|---|---|")
@@ -185,7 +190,7 @@ def selection_rule():
     selected = d.cv_prediction == 1
     rocs = gain(d[HEURISTICS].min(1), d.ROCS)
     framework = np.where(selected, rocs, 0.0).mean()
-    out("## 6.5 Selection rule (E6)")
+    out("## Selection rule (E6)")
     out()
     out(f"- Balanced accuracy with grouped cross-validation: {balanced_accuracy_score(d.target, d.cv_prediction):.2f}")
     out(f"- ROCS invoked on {100 * selected.mean():.1f}% of the instances, refinement time saved "
@@ -197,7 +202,7 @@ def selection_rule():
 
 
 if __name__ == "__main__":
-    out("# Values reported in Section 6")
+    out("# Reported values")
     out()
     for section in (independent_tasks, workflow_benchmark, sensitivity, optimality_and_dual, selection_rule):
         section()

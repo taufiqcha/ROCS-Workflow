@@ -1,6 +1,6 @@
-"""Figures 2 to 6 and 8 of the article from the archived results.
+"""Result figures from the archived results.
 
-Figures 1 and 7 are diagrams. Two main colors are used, and every series also differs by marker
+The framework and decision-tree diagrams are drawn separately. Two main colors are used, and every series also differs by marker
 or line style so that the figures read in grayscale.
 """
 from pathlib import Path
@@ -25,16 +25,17 @@ plt.rcParams.update({"font.family": "sans-serif", "font.size": 8, "axes.titlesiz
 LABEL = {"EZ_GA": "EZ+GA", "EZ_PCSA": "EZ+PCSA", "CSA_OBL": "CSA-OBL", "MIN_MIN": "Min-Min", "CSA_ROJ": "CSA-ROJ"}
 PROPOSED = {"ROCS", "DCSA_20", "DCSA_100", "DCSA_500", "DCSA_2000"}
 HEURISTICS = ["HEFT", "PEFT", "EZ"]
+WORKFLOW = {"Genome": "1000Genome", "Soykb": "SoyKB", "Srasearch": "SRASearch"}
 
 
 def label(m):
     if m.startswith("DCSA_"):
-        return f"DCSA {m[5:]}N"
+        return f"DCSA ${m[5:]}n$"
     return LABEL.get(m, m)
 
 
 def independent():
-    d = pd.read_csv(R / "e5.csv")
+    d = pd.read_csv(R / "revision" / "independent_bounds.csv").assign(lower_bound=lambda x: x.lb_lp)
     style = {"MIN_MIN": (BLUE, "s", "--"), "LPT": (BLUE, "o", "-"), "CSA": (GREY, "^", ":"),
              "CSA_OBL": (GREY, "v", "--"), "CSA_ROJ": (ORANGE, "D", "-")}
     fig, axes = plt.subplots(1, 3, figsize=(0.95 * TWO_COLUMNS, 2.0))
@@ -82,7 +83,7 @@ def heatmap(e1):
         T = e1.pivot_table(index="workflow", columns="ccr", values=column, aggfunc="mean")
         image = ax.imshow(T.values, cmap=LinearSegmentedColormap.from_list("c", ["#FFFFFF", color]), aspect="auto")
         ax.set_xticks(range(T.shape[1]), [f"CCR {c:g}" for c in T.columns])
-        ax.set_yticks(range(T.shape[0]), T.index)
+        ax.set_yticks(range(T.shape[0]), [WORKFLOW.get(w, w) for w in T.index])
         dark = np.nanmax(T.values) * 0.6
         for i in range(T.shape[0]):
             for j in range(T.shape[1]):
@@ -119,7 +120,7 @@ def budget(e1, ax):
     ax.set_ylim(-limit, limit)
     ax.set_yticks(np.arange(-limit, limit + 1, 20))
     ax.set_xscale("log")
-    ax.set_xticks(list(data), [f"{b}N" for b in data])
+    ax.set_xticks(list(data), [f"${b}n$" for b in data])
     ax.minorticks_off()
     ax.set_xlabel("Evaluation budget")
     ax.set_ylabel("Mean improvement (%)")
@@ -127,7 +128,7 @@ def budget(e1, ax):
 
 
 def optimality_gap():
-    d = pd.read_csv(R / "e4.csv")
+    d = pd.read_csv(R / "revision" / "cpsat_continuous_merged.csv").assign(cpsat_best=lambda x: x.cpsat_continuous)
     methods = ["HEFT", "EZ", "GA", "CSA_OBL", "EZ_GA", "EZ_PCSA", "ROCS", "DCSA_20", "DCSA_100", "DCSA_500", "DCSA_2000"]
     best = d[["cpsat_best"] + methods].min(1)
     fig, ax = plt.subplots(figsize=(TWO_COLUMNS, 2.0))

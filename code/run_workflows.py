@@ -1,4 +1,4 @@
-"""Workflow benchmark E1, budget sensitivity E2, and fleet sensitivity E3 (Table 4).
+"""Workflow benchmark E1, budget sensitivity E2, and fleet sensitivity E3.
 
 Instances use seed 1000 + s, disjoint from the tuning seeds 0 to 9. HEFT, PEFT, and EZ are the
 heuristics. PSO, CSA, CSA-OBL, GA, and PCSA are seeded with HEFT and PEFT. ROCS, EZ+GA, and EZ+PCSA

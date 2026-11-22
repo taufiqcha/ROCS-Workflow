@@ -1,28 +1,28 @@
-# Values reported in Section 6
+# Reported values
 
-## 6.1 Independent tasks (E5)
+## Independent tasks (E5)
 
-Median makespan relative to the lower bound (Table 5 and Fig. 2)
+Median makespan relative to the lower bound
 
-| Dataset | Tasks | MIN_MIN | LPT | CSA | CSA_OBL | CSA_ROJ | GA | ROCS_LPT |
-|---|---|---|---|---|---|---|---|---|
-| rnaseq | 1000 | 1.278 | 1.015 | 1.142 | 1.130 | 1.053 | 1.015 | 1.015 |
-| rnaseq | 3000 | 1.105 | 1.007 | 1.071 | 1.055 | 1.013 | 1.007 | 1.007 |
-| rnaseq | 5000 | 1.047 | 1.004 | 1.040 | 1.042 | 1.009 | 1.004 | 1.004 |
-| rnaseq | 7000 | 1.053 | 1.005 | 1.035 | 1.031 | 1.008 | 1.005 | 1.005 |
-| rnaseq | 10000 | 1.022 | 1.005 | 1.031 | 1.041 | 1.009 | 1.005 | 1.005 |
-| simple | 1000 | 1.041 | 1.010 | 1.071 | 1.065 | 1.016 | 1.010 | 1.010 |
-| simple | 3000 | 1.014 | 1.003 | 1.032 | 1.027 | 1.004 | 1.003 | 1.003 |
-| simple | 5000 | 1.008 | 1.002 | 1.022 | 1.022 | 1.003 | 1.002 | 1.002 |
-| simple | 7000 | 1.005 | 1.001 | 1.021 | 1.020 | 1.002 | 1.001 | 1.001 |
-| simple | 10000 | 1.006 | 1.002 | 1.017 | 1.017 | 1.001 | 1.002 | 1.002 |
-| stratified | 1000 | 2.365 | 1.614 | 1.913 | 1.834 | 1.815 | 1.614 | 1.614 |
-| stratified | 3000 | 1.370 | 1.000 | 1.206 | 1.224 | 1.095 | 1.000 | 1.000 |
-| stratified | 5000 | 1.228 | 1.000 | 1.131 | 1.129 | 1.035 | 1.000 | 1.000 |
-| stratified | 7000 | 1.147 | 1.000 | 1.100 | 1.089 | 1.013 | 1.000 | 1.000 |
-| stratified | 10000 | 1.099 | 1.000 | 1.070 | 1.070 | 1.002 | 1.000 | 1.000 |
+| Dataset | Tasks | MIN_MIN | LPT | CSA | CSA_OBL | CSA_ROJ | GA | ROCS_LPT | lp_rounded |
+|---|---|---|---|---|---|---|---|---|---|
+| rnaseq | 1000 | 1.331 | 1.058 | 1.190 | 1.177 | 1.097 | 1.058 | 1.058 | 1.050 |
+| rnaseq | 3000 | 1.151 | 1.049 | 1.116 | 1.099 | 1.055 | 1.049 | 1.049 | 1.008 |
+| rnaseq | 5000 | 1.091 | 1.046 | 1.084 | 1.086 | 1.051 | 1.046 | 1.046 | 1.006 |
+| rnaseq | 7000 | 1.097 | 1.047 | 1.079 | 1.074 | 1.050 | 1.047 | 1.047 | 1.008 |
+| rnaseq | 10000 | 1.065 | 1.047 | 1.074 | 1.084 | 1.051 | 1.047 | 1.047 | 1.004 |
+| simple | 1000 | 1.041 | 1.011 | 1.071 | 1.065 | 1.016 | 1.011 | 1.011 | 1.039 |
+| simple | 3000 | 1.014 | 1.003 | 1.033 | 1.027 | 1.004 | 1.003 | 1.003 | 1.011 |
+| simple | 5000 | 1.009 | 1.002 | 1.023 | 1.022 | 1.003 | 1.002 | 1.002 | 1.006 |
+| simple | 7000 | 1.005 | 1.001 | 1.021 | 1.020 | 1.002 | 1.001 | 1.001 | 1.006 |
+| simple | 10000 | 1.006 | 1.002 | 1.017 | 1.017 | 1.001 | 1.002 | 1.002 | 1.003 |
+| stratified | 1000 | 1.466 | 1.000 | 1.183 | 1.137 | 1.126 | 1.000 | 1.000 | 1.000 |
+| stratified | 3000 | 1.370 | 1.000 | 1.206 | 1.224 | 1.095 | 1.000 | 1.000 | 1.048 |
+| stratified | 5000 | 1.228 | 1.000 | 1.131 | 1.130 | 1.035 | 1.000 | 1.000 | 1.032 |
+| stratified | 7000 | 1.147 | 1.000 | 1.100 | 1.090 | 1.013 | 1.000 | 1.000 | 1.027 |
+| stratified | 10000 | 1.099 | 1.000 | 1.070 | 1.070 | 1.002 | 1.000 | 1.000 | 1.026 |
 
-- LPT within 1.5% of the bound: 14 of 15 configurations
+- LPT within 1.5% of the bound: 10 of 15 configurations
 - ROCS from LPT shorter than LPT: 0 of 450 runs
 - GA from LPT tied with LPT: 441 of 450 runs
 - CSA-OBL against CSA, p per dataset: 0.11 to 0.28
@@ -30,9 +30,9 @@ Median makespan relative to the lower bound (Table 5 and Fig. 2)
 - CSA-ROJ shorter than CSA: 412 of 450 runs
 - Median gap to the bound from 3,000 tasks: CSA-ROJ 0.1% to 9.5%, CSA 1.7% to 20.6%
 
-## 6.2 Workflow benchmark (E1)
+## Workflow benchmark (E1)
 
-Friedman chi-square 20789, p 0, Nemenyi critical difference 0.306 (Fig. 3)
+Friedman chi-square 20789, p 0, Nemenyi critical difference 0.306
 
 | Method | Average rank |
 |---|---|
@@ -48,11 +48,11 @@ Friedman chi-square 20789, p 0, Nemenyi critical difference 0.306 (Fig. 3)
 | HEFT | 8.15 |
 | PEFT | 10.80 |
 
-- EZ over HEFT and PEFT on Montage and Epigenomics (Fig. 4a): CCR 1 19.5% to 25.7%, CCR 5 48.3% to 57.9%
-- Mean ROCS improvement (Fig. 4b): CCR 0.1 0.14%, CCR 5 1.47%, largest workflow mean 3.90% (Epigenomics)
+- EZ over HEFT and PEFT on Montage and Epigenomics: CCR 1 19.5% to 25.7%, CCR 5 48.3% to 57.9%
+- Mean ROCS improvement: CCR 0.1 0.14%, CCR 5 1.47%, largest workflow mean 3.90% (Epigenomics)
 - ROCS more than 1% better than the best heuristic at CCR 5: 14.0% of runs
 
-Pairwise comparison of ROCS (Table 6)
+Pairwise comparison of ROCS
 
 | Opponent | Wins | Ties | Losses | p Holm | Paired A12 |
 |---|---|---|---|---|---|
@@ -65,9 +65,9 @@ Pairwise comparison of ROCS (Table 6)
 - Mean run time, 1000 tasks: ROCS 2.30 s, EZ+GA 4.28 s
 - Mean makespan reduction of ROCS on Montage and Epigenomics at CCR 1 and 5: PEFT 42.5%, HEFT 41.7%, CSA_OBL 39.5%, GA 30.7%
 
-## 6.3 Sensitivity (E2 and E3)
+## Sensitivity (E2 and E3)
 
-Mean improvement over the best heuristic by budget (Fig. 5)
+Mean improvement over the best heuristic by budget
 
 | Budget | ROCS | EZ_GA | EZ_PCSA | GA | CSA_OBL |
 |---|---|---|---|---|---|
@@ -83,15 +83,15 @@ Mean improvement over the best heuristic by budget (Fig. 5)
 | 16 VMs, 450/500/550 | 15.3 | 0.8 |
 | 16 VMs, 250/500/1000 | 20.3 | 1.1 |
 
-## 6.4 Optimality gap (E4) and dual encoding (E7)
+## Optimality gap (E4) and dual encoding (E7)
 
-- CP-SAT proved optimality on 9 of 36 instances and returned the best known solution on 32
-- Median gap to the proven optimum: HEFT 5.9%, EZ 5.9%, ROCS 5.1%
+- CP-SAT proved optimality on 9 of 36 instances and returned the best known solution on 36
+- Median gap to the proven optimum: HEFT 5.9%, EZ 5.9%, ROCS 5.2%
 - Largest gap to the proven optimum: EZ 17.1%, GA 17.1%, CSA_OBL 17.1%, EZ_GA 17.1%, EZ_PCSA 17.1%, ROCS 17.1%
-- Median gap of DCSA to the best known solution (Fig. 6): 20 3.1%, 100 2.7%, 500 1.8%, 2000 1.4%
-- DCSA at 2000n shorter than EZ+PCSA on 30 instances and shorter than CP-SAT on 4
+- Median gap of DCSA to the best known solution: 20 3.0%, 100 2.7%, 500 1.8%, 2000 1.4%
+- DCSA at 2000n shorter than EZ+PCSA on 30 instances and shorter than CP-SAT on 0
 
-Dual encoding at 100n, improvement over EZ (Table 7)
+Dual encoding at 100n, improvement over EZ
 
 | Method | Mean (%) | Median (%) | DCSA wins | DCSA losses | p |
 |---|---|---|---|---|---|
@@ -103,7 +103,7 @@ Dual encoding at 100n, improvement over EZ (Table 7)
 | ROCS | 2.98 | 0.46 | 92 | 40 | 5.81e-07 |
 | EZ_PCSA | 2.74 | 0.51 | 81 | 41 | 0.000148 |
 
-## 6.5 Selection rule (E6)
+## Selection rule (E6)
 
 - Balanced accuracy with grouped cross-validation: 0.65
 - ROCS invoked on 42.4% of the instances, refinement time saved 64.5%

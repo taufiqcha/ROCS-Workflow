@@ -1,4 +1,4 @@
-"""E4: optimality gap on 36 small instances with four VMs (Table 4 and Section 6.4).
+"""E4: optimality gap on 36 small instances with four VMs.
 
 The smallest WfCommons instances of six applications use seed 2000 + s. Every method receives 20n
 evaluations, and DCSA is also run at 100n, 500n, and 2000n.

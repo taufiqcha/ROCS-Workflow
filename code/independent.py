@@ -1,7 +1,7 @@
-"""Independent tasks (Section 5.1): datasets, LPT, Min-Min, single-solution CSA, CSA-OBL, CSA-ROJ, and GA.
+"""Independent tasks: datasets, LPT, Min-Min, single-solution CSA, CSA-OBL, CSA-ROJ, and GA.
 
-Task i runs on VM k for length_i / s_k + 300 MB / 1000 MB/s (Eq. 1), and the makespan is the
-largest VM completion time. The lower bound of Eq. (2) is total length / total speed plus the mean
+Task i runs on VM k for length_i / s_k + 300 MB / 1000 MB/s, and the makespan is the
+largest VM completion time. The archived lower_bound column of e5.csv is total length / total speed plus the mean
 transfer time per VM.
 """
 import random
@@ -65,7 +65,7 @@ def min_min(rt, length):
 
 def crow_search(rt, x, rng, J=0.0):
     """Single-solution CSA of Farid (2023) with 20 passes over the tasks. With J > 0, a task follows
-    Eq. (6) with probability J instead of the crow move (CSA-ROJ, and ROCS when started from LPT)."""
+    the rank-opposition jump with probability J instead of the crow move (CSA-ROJ, and ROCS when started from LPT)."""
     n = len(x)
     completion = np.zeros(M)
     np.add.at(completion, x, rt[np.arange(n), x])

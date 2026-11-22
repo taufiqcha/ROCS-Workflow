@@ -1,4 +1,4 @@
-"""E7: dual encoding at a budget of 100n on the E1 instances where refinement pays off (Table 7).
+"""E7: dual encoding at a budget of 100n on the E1 instances where refinement pays off.
 
 All methods are seeded with the EZ, HEFT, and PEFT schedules. The dual-encoded methods also receive
 the keys of the shared, HEFT, and PEFT orders.
